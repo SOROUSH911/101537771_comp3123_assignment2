@@ -1,0 +1,431 @@
+{
+  "info": {
+    "name": "Employee Management API - COMP 3123",
+    "description": "Complete API collection for testing Employee Management System\nStudent: Soroush Salari (101537771)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "User Signup",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"token\", jsonData.token);",
+                  "    pm.environment.set(\"token\", jsonData.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"soroush\",\n  \"email\": \"soroush@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/signup",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "signup"]
+            },
+            "description": "Register a new user account"
+          }
+        },
+        {
+          "name": "User Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"token\", jsonData.token);",
+                  "    pm.environment.set(\"token\", jsonData.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"soroush@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "login"]
+            },
+            "description": "Login with existing credentials"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employees",
+      "item": [
+        {
+          "name": "Get All Employees",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/emp/employees",
+              "host": ["{{baseUrl}}"],
+              "path": ["emp", "employees"]
+            },
+            "description": "Retrieve all employees"
+          }
+        },
+        {
+          "name": "Get Employee by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/emp/employees/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["emp", "employees", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "EMPLOYEE_ID_HERE"
+                }
+              ]
+            },
+            "description": "Get a specific employee by ID"
+          }
+        },
+        {
+          "name": "Create Employee (with picture)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "firstName",
+                  "value": "John",
+                  "type": "text"
+                },
+                {
+                  "key": "lastName",
+                  "value": "Doe",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "john.doe@company.com",
+                  "type": "text"
+                },
+                {
+                  "key": "position",
+                  "value": "Software Developer",
+                  "type": "text"
+                },
+                {
+                  "key": "department",
+                  "value": "IT",
+                  "type": "text"
+                },
+                {
+                  "key": "salary",
+                  "value": "75000",
+                  "type": "text"
+                },
+                {
+                  "key": "dateOfJoining",
+                  "value": "2024-01-15",
+                  "type": "text"
+                },
+                {
+                  "key": "profilePicture",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/emp/employees",
+              "host": ["{{baseUrl}}"],
+              "path": ["emp", "employees"]
+            },
+            "description": "Create a new employee with optional profile picture"
+          }
+        },
+        {
+          "name": "Create Employee (without picture)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "firstName",
+                  "value": "Jane",
+                  "type": "text"
+                },
+                {
+                  "key": "lastName",
+                  "value": "Smith",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "jane.smith@company.com",
+                  "type": "text"
+                },
+                {
+                  "key": "position",
+                  "value": "Project Manager",
+                  "type": "text"
+                },
+                {
+                  "key": "department",
+                  "value": "Management",
+                  "type": "text"
+                },
+                {
+                  "key": "salary",
+                  "value": "85000",
+                  "type": "text"
+                },
+                {
+                  "key": "dateOfJoining",
+                  "value": "2024-02-01",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/emp/employees",
+              "host": ["{{baseUrl}}"],
+              "path": ["emp", "employees"]
+            },
+            "description": "Create employee without profile picture"
+          }
+        },
+        {
+          "name": "Update Employee",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "firstName",
+                  "value": "John",
+                  "type": "text"
+                },
+                {
+                  "key": "lastName",
+                  "value": "Doe",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "john.doe@company.com",
+                  "type": "text"
+                },
+                {
+                  "key": "position",
+                  "value": "Senior Software Developer",
+                  "type": "text"
+                },
+                {
+                  "key": "department",
+                  "value": "IT",
+                  "type": "text"
+                },
+                {
+                  "key": "salary",
+                  "value": "85000",
+                  "type": "text"
+                },
+                {
+                  "key": "profilePicture",
+                  "type": "file",
+                  "src": [],
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/emp/employees/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["emp", "employees", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "EMPLOYEE_ID_HERE"
+                }
+              ]
+            },
+            "description": "Update employee information"
+          }
+        },
+        {
+          "name": "Delete Employee",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/emp/employees/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["emp", "employees", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "EMPLOYEE_ID_HERE"
+                }
+              ]
+            },
+            "description": "Delete an employee"
+          }
+        },
+        {
+          "name": "Search by Department",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/emp/employees/search?department=IT",
+              "host": ["{{baseUrl}}"],
+              "path": ["emp", "employees", "search"],
+              "query": [
+                {
+                  "key": "department",
+                  "value": "IT"
+                }
+              ]
+            },
+            "description": "Search employees by department"
+          }
+        },
+        {
+          "name": "Search by Position",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/emp/employees/search?position=Developer",
+              "host": ["{{baseUrl}}"],
+              "path": ["emp", "employees", "search"],
+              "query": [
+                {
+                  "key": "position",
+                  "value": "Developer"
+                }
+              ]
+            },
+            "description": "Search employees by position"
+          }
+        },
+        {
+          "name": "Search by Department and Position",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/emp/employees/search?department=IT&position=Developer",
+              "host": ["{{baseUrl}}"],
+              "path": ["emp", "employees", "search"],
+              "query": [
+                {
+                  "key": "department",
+                  "value": "IT"
+                },
+                {
+                  "key": "position",
+                  "value": "Developer"
+                }
+              ]
+            },
+            "description": "Search employees by both department and position"
+          }
+        }
+      ]
+    }
+  ]
+}
